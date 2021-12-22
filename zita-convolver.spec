@@ -11,6 +11,7 @@ Source0  : file:///aot/build/clearlinux/packages/zita-convolver/zita-convolver-v
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0 GPL-3.0
+Requires: zita-convolver-lib = %{version}-%{release}
 BuildRequires : PyYAML
 BuildRequires : Pygments
 BuildRequires : Sphinx
@@ -122,6 +123,34 @@ BuildRequires : zlib-staticdev
 *  Released 2018-06-06   *
 **************************
 
+%package dev
+Summary: dev components for the zita-convolver package.
+Group: Development
+Requires: zita-convolver-lib = %{version}-%{release}
+Provides: zita-convolver-devel = %{version}-%{release}
+Requires: zita-convolver = %{version}-%{release}
+
+%description dev
+dev components for the zita-convolver package.
+
+
+%package lib
+Summary: lib components for the zita-convolver package.
+Group: Libraries
+
+%description lib
+lib components for the zita-convolver package.
+
+
+%package staticdev
+Summary: staticdev components for the zita-convolver package.
+Group: Default
+Requires: zita-convolver-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the zita-convolver package.
+
+
 %prep
 %setup -q -n zita-convolver-clr
 cd %{_builddir}/zita-convolver-clr
@@ -132,7 +161,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1640182982
+export SOURCE_DATE_EPOCH=1640183050
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -213,9 +242,22 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 
 
 %install
-export SOURCE_DATE_EPOCH=1640182982
+export SOURCE_DATE_EPOCH=1640183050
 rm -rf %{buildroot}
 %make_install
 
 %files
 %defattr(-,root,root,-)
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/zita-convolver.h
+/usr/lib64/libzita-convolver.so
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libzita-convolver.so.4.0.3
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libzita-convolver.a
